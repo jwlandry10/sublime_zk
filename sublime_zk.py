@@ -633,7 +633,7 @@ class Autobib:
 
     @staticmethod
     def run(pandoc_bin, bibfile, stdin):
-        args = [pandoc_bin, '-t', 'plain', '--bibliography', bibfile]
+        args = [pandoc_bin, '-C', '-t', 'plain', '--bibliography', bibfile]
         # using universal_newlines here gets us into decoding troubles as the
         # encoding then is guessed and can be ascii which can't deal with
         # unicode characters. hence, we handle \r ourselves
