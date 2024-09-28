@@ -1386,6 +1386,11 @@ While we're at it, I highly recommend the following books (German); Google and A
 * "Das Zettelkastenprinzip" / "How to take smart notes" [(more info here...)](http://takesmartnotes.com/#moreinfo) will blow your mind.
 * "Die Zettelkastenmethode" from Sascha over at zettelkasten.de will also blow your mind and expand on the plain-text approach of using a digital Zettelkasten.
 
+## Updates
+
+I've forked this from the original renerocksai github repository since he is no longer maintaining it. I use this codebase almost every day and want to keep it maintained. Below is a list of updates to keep it functional and clean up issues.
+
+* pandoc now requires the use of `-C` or `--citeproc` to generate from `.bib` files. So I edited `sublime_sk.py` to fix that.
 
 
 
