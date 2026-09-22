@@ -19,7 +19,16 @@ import threading
 import io
 from subprocess import Popen, PIPE
 import struct
-import imghdr
+import sys
+# import imghdr
+# Fix for python 3.14 which removed imghdr.
+# filetype is vendored in this package's own "filetype" folder (MIT licensed,
+# see filetype/LICENSE) since it isn't available as a Package Control
+# dependency; make sure this package's directory is on sys.path so it's found.
+_package_dir = os.path.dirname(os.path.abspath(__file__))
+if _package_dir not in sys.path:
+    sys.path.insert(0, _package_dir)
+import filetype
 import unicodedata
 from collections import Counter
 from operator import itemgetter
@@ -415,16 +424,21 @@ class ImageHandler:
             # print('head:\n', repr(head))
             if len(head) != 24:
                 return
-            if imghdr.what(img) == 'png':
+            kind = filetype.guess(img)
+            ext = kind.extension if kind else None
+            # if imghdr.what(img) == 'png':
+            if ext == 'png':
                 ttype = "png"
                 check = struct.unpack('>i', head[4:8])[0]
                 if check != 0x0d0a1a0a:
                     return
                 width, height = struct.unpack('>ii', head[16:24])
-            elif imghdr.what(img) == 'gif':
+            # elif imghdr.what(img) == 'gif':
+            elif ext == 'gif':
                 ttype = "gif"
                 width, height = struct.unpack('<HH', head[6:10])
-            elif imghdr.what(img) == 'jpeg':
+            # elif imghdr.what(img) == 'jpeg':
+            elif ext == "jpg":
                 ttype = "jpeg"
                 try:
                     f.seek(0)  # Read 0xff next
